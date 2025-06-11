@@ -1,0 +1,52 @@
+{
+  "menu": [
+    {
+      "id": 1,
+      "name": "Margerita",
+      "img": "https://cdn-media.choiceqr.com/prod-eat-bellaciaowarszawa/menu/TeJlRpe-XbfbcJJ-OBzCerY.webp",
+      "ingredients": ["sos pomidorowy", "ser"],
+      "priceSmall": 24,
+      "priceLarge": 33
+    },
+    {
+      "id": 2,
+      "name": "Vesovio",
+      "img": "https://cdn-media.choiceqr.com/prod-eat-bellaciaowarszawa/menu/bCrmJWM-xigWqqI-CVHIDpm.webp",
+      "ingredients": ["sos pomidorowy", "ser", "szynka"],
+      "priceSmall": 27,
+      "priceLarge": 37
+    },
+    {
+      "id": 3,
+      "name": "Funghi",
+      "img": "https://cdn-media.choiceqr.com/prod-eat-bellaciaowarszawa/menu/GyEVavH-FsFPmTd-aJlVlJp.webp",
+      "ingredients": ["sos pomidorowy", "ser", "pieczarki"],
+      "priceSmall": 24.5,
+      "priceLarge": 36.5
+    },
+    {
+      "id": 4,
+      "name": "Capriciosa",
+      "img": "https://cdn-media.choiceqr.com/prod-eat-bellaciaowarszawa/menu/gDdYijz-Zozhglf-XWDHems.webp",
+      "ingredients": ["sos pomidorowy", "ser", "pieczarki", "szynka"],
+      "priceSmall": 28.5,
+      "priceLarge": 38
+    },
+    {
+      "id": 5,
+      "name": "Toscani",
+      "img": "https://cdn-media.choiceqr.com/prod-eat-bellaciaowarszawa/menu/vaIwXMP-VtlUDAP-yXdGVoT.webp",
+      "ingredients": [
+        "sos pomidorowy",
+        "ser",
+        "tuńczyk",
+        "oliwki czarne",
+        "oliwki zielone",
+        "czosnek",
+        "cebula"
+      ],
+      "priceSmall": 28.5,
+      "priceLarge": 38
+    }
+  ]
+}
