@@ -1,8 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from "react-redux";
+import { FavouritesProvider } from "./context/FavouritesProvider";
 import Menu from "./pages/Menu";
 import Header from "./ui/Header";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import MenuItemDetails from "./features/menu/MenuItemDetails";
+import store from "./store";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,17 +16,23 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Header />
-        <main className="pt-16">
-          <Routes>
-            <Route index element={<Menu />} />
-            <Route path="/menu/:menuItemName" element={<MenuItemDetails />} />
-          </Routes>
-        </main>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <FavouritesProvider>
+          <BrowserRouter>
+            <Header />
+            <main className="pt-16">
+              <Routes>
+                <Route index element={<Navigate to="/menu" />} />
+                <Route path="/menu" element={<Menu />}>
+                  <Route path=":menuItemName" />
+                </Route>
+              </Routes>
+            </main>
+          </BrowserRouter>
+        </FavouritesProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 }
 

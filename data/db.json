@@ -48,5 +48,22 @@
       "priceSmall": 28.5,
       "priceLarge": 38
     }
-  ]
+  ],
+  "extras": {
+    "thickDoughPrice": 4,
+    "sauces": [
+      {
+        "name": "sos czosnkowy",
+        "price": 5
+      },
+      {
+        "name": "sos pomidorowy",
+        "price": 5
+      },
+      {
+        "name": "sos zurawinowy",
+        "price": 6
+      }
+    ]
+  }
 }

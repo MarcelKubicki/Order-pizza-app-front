@@ -1,87 +1,58 @@
-import { ToggleGroup, ToggleGroupItem } from "@radix-ui/react-toggle-group";
-import { Plus } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
+import ExtrasGroup from "./ExtrasGroup";
+import ExtraItem from "./ExtraItem";
+import { useExtras } from "./useExtras";
+import ExtraGroupSkeleton from "./ExtraGroupSkeleton";
 
-function MenuItemOptions() {
-  const [size, setSize] = useState("");
-  const [thicknes, setThicknes] = useState("");
+type Props = {
+  price: {
+    priceSmall: number;
+    priceLarge: number;
+  };
+};
+
+function MenuItemOptions({ price }: Props): React.JSX.Element {
+  const [size, setSize] = useState<string>("");
+  const [thicknes, setThicknes] = useState<string>("");
+  const { isLoading, data, error } = useExtras();
+
+  if (isLoading)
+    return (
+      <div className="px-4">
+        {[...Array(3)].map(() => (
+          <ExtraGroupSkeleton />
+        ))}
+      </div>
+    );
+
+  if (error) return <p>Error occured: {error.message}</p>;
 
   return (
     <div className="px-4">
-      <ToggleGroup
-        type="single"
-        value={size}
-        onValueChange={(value) => {
-          if (value) setSize(value);
-        }}
-        className="border-t-2 flex flex-col gap-2 py-2"
+      <ExtrasGroup
+        groupName="Wybierz rozmiar"
+        optionValue={size}
+        setOptionValue={setSize}
       >
-        <h3 className="font-semibold">Wybierz rozmiar</h3>
-        <div className="flex justify-between items-center">
-          <p>S: 32 cm</p>
-          <div className="flex items-center gap-3">
-            <span className="text-red-800">24 zł</span>
-            <ToggleGroupItem
-              value="S"
-              aria-label="Toggle small size"
-              className="bg-gray-200 text-black data-[state=on]:bg-black data-[state=on]:text-white rounded p-1"
-            >
-              <Plus />
-            </ToggleGroupItem>
-          </div>
-        </div>
+        <ExtraItem value="S: 32cm" price={price.priceSmall} />
+        <ExtraItem value="L: 45cm" price={price.priceLarge} />
+      </ExtrasGroup>
 
-        <div className="flex justify-between">
-          <p>L: 45 cm</p>
-          <div className="flex items-center gap-3">
-            <span className="text-red-800">32 zł</span>
-            <ToggleGroupItem
-              value="L"
-              aria-label="Toggle large size"
-              className="bg-gray-200 text-black data-[state=on]:bg-black data-[state=on]:text-white rounded p-1"
-            >
-              <Plus />
-            </ToggleGroupItem>
-          </div>
-        </div>
-      </ToggleGroup>
-
-      <ToggleGroup
-        type="single"
-        value={thicknes}
-        onValueChange={(value) => {
-          if (value) setThicknes(value);
-        }}
-        className="border-t-2 flex flex-col gap-2 py-2"
+      <ExtrasGroup
+        groupName="Wybierz ciasto"
+        optionValue={thicknes}
+        setOptionValue={setThicknes}
       >
-        <h3 className="font-semibold">Wybierz ciasto</h3>
-        <div className="flex justify-between items-center">
-          <p>Cienkie</p>
-          <div className="flex items-center gap-3">
-            <ToggleGroupItem
-              value="thin"
-              aria-label="Toggle small size"
-              className="bg-gray-200 text-black data-[state=on]:bg-black data-[state=on]:text-white rounded p-1"
-            >
-              <Plus />
-            </ToggleGroupItem>
-          </div>
-        </div>
+        <ExtraItem value="Cienkie" />
+        <ExtraItem value="Grube" price={data?.thickDoughPrice} />
+      </ExtrasGroup>
 
-        <div className="flex justify-between items-center">
-          <p>Grube</p>
-          <div className="flex items-center gap-3">
-            <span className="text-red-800">4 zł</span>
-            <ToggleGroupItem
-              value="thick"
-              aria-label="Toggle large size"
-              className="bg-gray-200 text-black data-[state=on]:bg-black data-[state=on]:text-white rounded p-1"
-            >
-              <Plus />
-            </ToggleGroupItem>
-          </div>
-        </div>
-      </ToggleGroup>
+      <div className="flex flex-col gap-2 border-t-2 py-2">
+        <h3 className="font-semibold">Dobierz sosy</h3>
+        {data?.sauces?.map((sauce) => (
+          <ExtraItem quantityCounter value={sauce.name} price={sauce.price} />
+        ))}
+      </div>
     </div>
   );
 }
