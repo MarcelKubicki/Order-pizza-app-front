@@ -19,7 +19,7 @@ type Props = {
 };
 
 function MenuItemCardPreview({ item, onAddClick }: Props): React.JSX.Element {
-  const { id, name, img, ingredients, priceSmall, priceLarge } = item;
+  const { name, img, ingredients, priceSmall, priceLarge } = item;
 
   return (
     <Card className="flex flex-row gap-0 rounded-none py-4">

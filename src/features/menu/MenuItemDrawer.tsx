@@ -12,6 +12,16 @@ import {
 import { Button } from "@/components/ui/button";
 import type { MenuItem } from "@/types/menu";
 import MenuItemOptions from "./MenuItemOptions";
+import QuantityCounter from "@/ui/QuantityCounter";
+import {
+  clearOrderItem,
+  decreaseQuantity,
+  getQuantity,
+  getTotalPrice,
+  increaseQuantity,
+  isRequiredSelected,
+} from "./orderItemSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 type Props = {
   item: MenuItem;
@@ -19,12 +29,28 @@ type Props = {
 };
 
 function MenuItemDrawer({ item, onClose }: Props): React.JSX.Element {
-  const { id, name, img, ingredients, priceSmall, priceLarge } = item;
+  const { name, img, ingredients, priceSmall, priceLarge } = item;
+
+  const quantity = useAppSelector(getQuantity);
+
+  const isRequired = useAppSelector(isRequiredSelected);
+  const totalPrice = useAppSelector(getTotalPrice);
+  const dispatch = useAppDispatch();
+
+  function cancelOrderItem() {
+    onClose();
+  }
 
   return (
     <DrawerContent className="mt-0 flex flex-col">
       <DrawerClose asChild className="ml-4">
-        <Button size="icon" onClick={onClose}>
+        <Button
+          size="icon"
+          onClick={() => {
+            cancelOrderItem();
+            dispatch(clearOrderItem());
+          }}
+        >
           <ChevronLeft />
         </Button>
       </DrawerClose>
@@ -42,7 +68,7 @@ function MenuItemDrawer({ item, onClose }: Props): React.JSX.Element {
             </Button>
           </div>
 
-          <DrawerDescription>
+          <DrawerDescription className="px-4 pt-2 text-start">
             {ingredients.reduce((acc, curr) => acc + `${curr}, `, "")}
           </DrawerDescription>
         </DrawerHeader>
@@ -50,7 +76,28 @@ function MenuItemDrawer({ item, onClose }: Props): React.JSX.Element {
         <MenuItemOptions price={{ priceSmall, priceLarge }} />
       </div>
       <DrawerFooter>
-        <p>Wybierz wymagane opcje</p>
+        {isRequired ? (
+          <div className="flex gap-2">
+            <QuantityCounter
+              withDelete
+              onMinusAction={() => {
+                if (quantity === 1) {
+                  cancelOrderItem();
+                }
+                dispatch(decreaseQuantity());
+              }}
+              onPlusAction={() => dispatch(increaseQuantity())}
+              quantity={quantity}
+            />
+            <Button className="flex-1">
+              Dodaj do zamówienia {totalPrice} zł
+            </Button>
+          </div>
+        ) : (
+          <p className="text-center font-semibold text-gray-400">
+            Wybierz wymagane opcje
+          </p>
+        )}
       </DrawerFooter>
     </DrawerContent>
   );

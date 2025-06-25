@@ -14,7 +14,9 @@ function Menu(): React.JSX.Element {
     <div className="grid">
       <H1 className="mx-auto my-3">MENU</H1>
       {isLoading
-        ? [...Array(4)].map(() => <MenuItemCardSkeleton />)
+        ? [...Array(4)].map((value, index) => (
+            <MenuItemCardSkeleton key={index} />
+          ))
         : data?.map((item: MenuItem) => (
             <MenuItemCard key={item.id} item={item} />
           ))}
